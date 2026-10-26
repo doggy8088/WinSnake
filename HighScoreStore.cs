@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using Windows.Storage;
 
@@ -35,8 +36,15 @@ internal static class HighScoreStore
             string path = GetFallbackPath();
             if (File.Exists(path))
             {
-                HighScoreData? data = JsonSerializer.Deserialize<HighScoreData>(File.ReadAllText(path));
-                score = Math.Max(score, data?.HighScore ?? 0);
+                // JsonDocument keeps this path trim-safe; reflection-based
+                // JsonSerializer.Deserialize can lose its metadata after trimming.
+                using JsonDocument document = JsonDocument.Parse(File.ReadAllText(path));
+                if (document.RootElement.ValueKind == JsonValueKind.Object
+                    && document.RootElement.TryGetProperty("HighScore", out JsonElement element)
+                    && element.TryGetInt32(out int fileScore))
+                {
+                    score = Math.Max(score, fileScore);
+                }
             }
         }
         catch (Exception)
@@ -72,7 +80,9 @@ internal static class HighScoreStore
                 Directory.CreateDirectory(directory);
             }
 
-            File.WriteAllText(path, JsonSerializer.Serialize(new HighScoreData { HighScore = highScore }));
+            File.WriteAllText(
+                path,
+                $"{{\"HighScore\":{highScore.ToString(CultureInfo.InvariantCulture)}}}");
         }
         catch (Exception)
         {
@@ -84,9 +94,4 @@ internal static class HighScoreStore
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         AppFolderName,
         FileName);
-
-    private sealed class HighScoreData
-    {
-        public int HighScore { get; set; }
-    }
 }

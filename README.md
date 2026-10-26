@@ -12,9 +12,9 @@
 
 前往 [Releases](https://github.com/doggy8088/WinSnake/releases/latest) 下載：
 
-| 檔案 | 說明 |
-| --- | --- |
-| `WinSnake.exe` | Windows x64 可攜單檔版（免安裝） |
+| 檔案 | 大小 | 說明 |
+| --- | ---: | --- |
+| `WinSnake.exe` | 約 36.6 MB | Windows x64 可攜單檔版（免安裝） |
 
 **系統需求：** Windows 10 1809（`10.0.17763`）以上、x64。不需要另外安裝 .NET 或 Windows App SDK。
 
@@ -39,6 +39,7 @@
 - 速度隨分數加快；撞到牆壁或自己的身體即結束
 - 最高分自動保存（封裝版使用套件設定，可攜版使用 `%LOCALAPPDATA%\WinSnake\highscore.json`）
 - 專屬品牌標誌、霓虹背景與蛇角色點綴
+- 可攜版採部分 trimming 與精簡的 Windows App SDK 元件，單檔約 36.6 MB
 - 深色霓虹介面、等比縮放棋盤、視窗最小尺寸限制
 - 鍵盤與螢幕按鈕皆可操作，文字尺寸針對高 DPI 螢幕調整
 - 遊戲規則為獨立類別庫，附 14 個單元測試
@@ -83,7 +84,7 @@ dotnet test Tests\WinSnake.Core.Tests\WinSnake.Core.Tests.csproj
 dotnet publish WinSnake.csproj -p:PublishProfile=Portable-win-x64
 ```
 
-輸出為 `publish\portable\win-x64\WinSnake.exe`，單一檔案已包含 .NET 執行階段與 Windows App SDK。
+輸出為 `publish\portable\win-x64\WinSnake.exe`，單一檔案已包含 .NET 執行階段與 Windows App SDK。發行設定使用部分 trimming，並只引用 WinUI、DWrite 與 Runtime 元件，避免把未使用的 AI/ML/Search/Widgets 載入可攜版。
 
 ## 專案結構
 
