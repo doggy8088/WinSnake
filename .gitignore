@@ -41,6 +41,7 @@ BundleArtifacts/
 # Publish output
 publish/
 *.pubxml
+!Properties/PublishProfiles/Portable-win-x64.pubxml
 PublishScripts/
 
 # Code analysis and tooling
@@ -56,3 +57,6 @@ Generated\ Files/
 # winapp CLI
 .winapp/
 devcert.pfx
+
+# Local UI verification captures
+.screenshots/
