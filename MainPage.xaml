@@ -6,13 +6,322 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WinSnake"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="OnPageLoaded"
+    Unloaded="OnPageUnloaded">
 
-    <!--
-        This is the main content area of your application.
-        Add your UI elements here — for example, controls, layouts, and data-bound views.
-        Use 'dotnet new winui-page' to create additional pages and navigate to them via
-        the Frame in MainWindow (RootFrame).
-    -->
-    <Grid />
+    <Page.Resources>
+        <SolidColorBrush x:Key="PanelBrush" Color="#FF101D31" />
+        <SolidColorBrush x:Key="PanelBorderBrush" Color="#FF1E3A5F" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#FF7E9BBB" />
+        <SolidColorBrush x:Key="BodyTextBrush" Color="#FFB9CEE3" />
+        <SolidColorBrush x:Key="BrightTextBrush" Color="#FFE9FAFF" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF22D3EE" />
+        <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="#FF122741" />
+        <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FF23486F" />
+        <SolidColorBrush x:Key="CellDarkBrush" Color="#FF0B192B" />
+        <SolidColorBrush x:Key="CellLightBrush" Color="#FF0E1F34" />
+        <SolidColorBrush x:Key="SnakeBodyBrush" Color="#FF2DD4A0" />
+        <SolidColorBrush x:Key="SnakeHeadBrush" Color="#FFB6F7D8" />
+        <SolidColorBrush x:Key="FoodBrush" Color="#FFFB7185" />
+
+        <Style x:Key="StatLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="CharacterSpacing" Value="100" />
+            <Setter Property="Foreground" Value="{StaticResource MutedTextBrush}" />
+        </Style>
+
+        <Style x:Key="StatValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="32" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontFamily" Value="Cascadia Mono, Consolas" />
+            <Setter Property="Foreground" Value="{StaticResource BrightTextBrush}" />
+        </Style>
+
+        <Style x:Key="FooterButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BrightTextBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Padding" Value="20,10" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+
+        <Style x:Key="PadButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="52" />
+            <Setter Property="Height" Value="46" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+        </Style>
+    </Page.Resources>
+
+    <Grid
+        x:Name="RootLayout"
+        KeyDown="OnRootKeyDown"
+        IsTabStop="True"
+        Padding="32,18,32,24">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#FF040A14" />
+                <GradientStop Offset="0.55" Color="#FF0A1728" />
+                <GradientStop Offset="1" Color="#FF06101F" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Branding and score board  -->
+        <Grid Margin="6,6,6,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel VerticalAlignment="Center" Spacing="4">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock
+                        FontSize="40"
+                        FontWeight="Black"
+                        CharacterSpacing="80"
+                        Foreground="{StaticResource BrightTextBrush}"
+                        Text="WIN SNAKE" />
+                    <Border
+                        Width="6"
+                        Height="34"
+                        VerticalAlignment="Center"
+                        Background="{StaticResource AccentBrush}"
+                        CornerRadius="3" />
+                </StackPanel>
+                <TextBlock
+                    FontSize="15"
+                    CharacterSpacing="60"
+                    Foreground="{StaticResource MutedTextBrush}"
+                    Text="Windows 原生貪食蛇" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="12"
+                VerticalAlignment="Center">
+                <Border
+                    MinWidth="120"
+                    Padding="20,12"
+                    Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource PanelBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14">
+                    <StackPanel Spacing="2">
+                        <TextBlock Style="{StaticResource StatLabelStyle}" Text="分數" />
+                        <TextBlock x:Name="ScoreText" Style="{StaticResource StatValueStyle}" Text="0" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    MinWidth="120"
+                    Padding="20,12"
+                    Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource PanelBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14">
+                    <StackPanel Spacing="2">
+                        <TextBlock Style="{StaticResource StatLabelStyle}" Text="最高分" />
+                        <TextBlock
+                            x:Name="HighScoreText"
+                            Foreground="{StaticResource AccentBrush}"
+                            Style="{StaticResource StatValueStyle}"
+                            Text="0" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    MinWidth="120"
+                    Padding="20,12"
+                    Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource PanelBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14">
+                    <StackPanel Spacing="2">
+                        <TextBlock Style="{StaticResource StatLabelStyle}" Text="等級" />
+                        <TextBlock x:Name="LevelText" Style="{StaticResource StatValueStyle}" Text="1" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!--  Board  -->
+        <Viewbox
+            Grid.Row="1"
+            MaxWidth="780"
+            MaxHeight="780"
+            Stretch="Uniform">
+            <Border
+                Padding="14"
+                Background="#FF071120"
+                BorderBrush="#FF1B3A5C"
+                BorderThickness="1"
+                CornerRadius="26">
+                <Grid Width="640" Height="640">
+                    <Canvas
+                        x:Name="BoardCanvas"
+                        Width="640"
+                        Height="640"
+                        AutomationProperties.Name="貪食蛇遊戲盤面" />
+
+                    <Grid x:Name="OverlayLayer">
+                        <Border Background="#E6071220" CornerRadius="16">
+                            <StackPanel
+                                MaxWidth="440"
+                                Margin="28"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="14">
+                                <Border
+                                    x:Name="OverlayBadge"
+                                    Padding="16,5"
+                                    HorizontalAlignment="Center"
+                                    Background="#3322D3EE"
+                                    BorderBrush="#6622D3EE"
+                                    BorderThickness="1"
+                                    CornerRadius="999">
+                                    <TextBlock
+                                        x:Name="OverlayBadgeText"
+                                        FontSize="14"
+                                        CharacterSpacing="160"
+                                        Foreground="#FF7DEBFA"
+                                        Text="準備開始" />
+                                </Border>
+                                <TextBlock
+                                    x:Name="OverlayTitle"
+                                    HorizontalAlignment="Center"
+                                    FontSize="54"
+                                    FontWeight="Black"
+                                    Foreground="{StaticResource BrightTextBrush}"
+                                    Text="貪食蛇" />
+                                <TextBlock
+                                    x:Name="OverlayMessage"
+                                    AutomationProperties.LiveSetting="Polite"
+                                    FontSize="21"
+                                    LineHeight="32"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap"
+                                    Foreground="{StaticResource BodyTextBrush}"
+                                    Text="用方向鍵或 WASD 操控蛇身，吃下越多果實分數越高。撞到牆壁或自己的身體就結束了。" />
+                                <Button
+                                    x:Name="PrimaryActionButton"
+                                    Click="OnPrimaryActionClick"
+                                    Padding="40,12"
+                                    HorizontalAlignment="Center"
+                                    CornerRadius="10"
+                                    FontSize="18"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    Content="開始遊戲" />
+                                <TextBlock
+                                    x:Name="OverlayHint"
+                                    HorizontalAlignment="Center"
+                                    FontSize="16"
+                                    Foreground="#FF6E8CA8"
+                                    Text="按 Enter 或空白鍵開始" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Viewbox>
+
+        <!--  Controls  -->
+        <Grid Grid.Row="2" Margin="6,20,6,0" ColumnSpacing="28">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="220" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel VerticalAlignment="Center" Spacing="6">
+                <TextBlock Style="{StaticResource StatLabelStyle}" Text="操作方式" />
+                <TextBlock
+                    MaxWidth="420"
+                    HorizontalAlignment="Left"
+                    FontSize="15"
+                    TextWrapping="Wrap"
+                    Foreground="{StaticResource BodyTextBrush}"
+                    Text="方向鍵 / WASD 移動　·　空白鍵 暫停　·　R 重新開始" />
+            </StackPanel>
+
+            <Grid
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                ColumnSpacing="8"
+                RowSpacing="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="1"
+                    AutomationProperties.Name="向上"
+                    Click="OnDirectionButtonClick"
+                    Content="▲"
+                    Style="{StaticResource PadButtonStyle}"
+                    Tag="Up" />
+                <Button
+                    Grid.Row="1"
+                    AutomationProperties.Name="向左"
+                    Click="OnDirectionButtonClick"
+                    Content="◀"
+                    Style="{StaticResource PadButtonStyle}"
+                    Tag="Left" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    AutomationProperties.Name="向下"
+                    Click="OnDirectionButtonClick"
+                    Content="▼"
+                    Style="{StaticResource PadButtonStyle}"
+                    Tag="Down" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    AutomationProperties.Name="向右"
+                    Click="OnDirectionButtonClick"
+                    Content="▶"
+                    Style="{StaticResource PadButtonStyle}"
+                    Tag="Right" />
+            </Grid>
+
+            <StackPanel
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button
+                    x:Name="PauseButton"
+                    MinWidth="116"
+                    Click="OnPauseClick"
+                    Content="暫停"
+                    Style="{StaticResource FooterButtonStyle}" />
+                <Button
+                    x:Name="RestartButton"
+                    MinWidth="146"
+                    Click="OnRestartClick"
+                    Content="重新開始"
+                    Style="{StaticResource FooterButtonStyle}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
 </Page>
+
