@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WinSnake (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinSnake (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
