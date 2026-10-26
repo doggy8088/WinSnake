@@ -18,6 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Assets\Branding\arcade-backdrop.jpg" />
+    <Content Include="Assets\Branding\logo-win-snake.png" />
+    <Content Include="Assets\Branding\snake-mascot.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />

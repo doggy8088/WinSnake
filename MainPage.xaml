@@ -79,6 +79,28 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  Decorative arcade backdrop; purely visual and never hit-testable.  -->
+        <Image
+            Grid.RowSpan="3"
+            Margin="-32,-18,-32,-24"
+            AutomationProperties.AccessibilityView="Raw"
+            IsHitTestVisible="False"
+            Opacity="0.95"
+            Source="ms-appx:///Assets/Branding/arcade-backdrop.jpg"
+            Stretch="UniformToFill" />
+        <Border
+            Grid.RowSpan="3"
+            Margin="-32,-18,-32,-24"
+            IsHitTestVisible="False">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#8C040A14" />
+                    <GradientStop Offset="0.55" Color="#990A1728" />
+                    <GradientStop Offset="1" Color="#A606101F" />
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
         <!--  Branding and score board  -->
         <Grid Margin="6,6,6,20">
             <Grid.ColumnDefinitions>
@@ -86,26 +108,37 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel VerticalAlignment="Center" Spacing="4">
-                <StackPanel Orientation="Horizontal" Spacing="12">
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="16"
+                VerticalAlignment="Center">
+                <Image
+                    Width="56"
+                    Height="56"
+                    AutomationProperties.AccessibilityView="Raw"
+                    Source="ms-appx:///Assets/Branding/logo-win-snake.png"
+                    Stretch="Uniform" />
+                <StackPanel VerticalAlignment="Center" Spacing="2">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock
+                            FontSize="40"
+                            FontWeight="Black"
+                            CharacterSpacing="80"
+                            Foreground="{StaticResource BrightTextBrush}"
+                            Text="WIN SNAKE" />
+                        <Border
+                            Width="6"
+                            Height="34"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource AccentBrush}"
+                            CornerRadius="3" />
+                    </StackPanel>
                     <TextBlock
-                        FontSize="40"
-                        FontWeight="Black"
-                        CharacterSpacing="80"
-                        Foreground="{StaticResource BrightTextBrush}"
-                        Text="WIN SNAKE" />
-                    <Border
-                        Width="6"
-                        Height="34"
-                        VerticalAlignment="Center"
-                        Background="{StaticResource AccentBrush}"
-                        CornerRadius="3" />
+                        FontSize="15"
+                        CharacterSpacing="60"
+                        Foreground="{StaticResource MutedTextBrush}"
+                        Text="Windows 原生貪食蛇" />
                 </StackPanel>
-                <TextBlock
-                    FontSize="15"
-                    CharacterSpacing="60"
-                    Foreground="{StaticResource MutedTextBrush}"
-                    Text="Windows 原生貪食蛇" />
             </StackPanel>
 
             <StackPanel
@@ -183,6 +216,12 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Spacing="14">
+                                <Image
+                                    Width="120"
+                                    Height="120"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    Source="ms-appx:///Assets/Branding/snake-mascot.png"
+                                    Stretch="Uniform" />
                                 <Border
                                     x:Name="OverlayBadge"
                                     Padding="16,5"
