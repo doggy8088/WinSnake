@@ -2,31 +2,22 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
-  IgnorableNamespaces="uap uap10 rescap systemai">
+  IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="20846B39-7DD8-48EA-B1D3-61DC552BC84E"
-    Publisher="CN=AppPublisher"
+    Name="WinSnake"
+    Publisher="CN=WinSnake"
     Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="20846B39-7DD8-48EA-B1D3-61DC552BC84E" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>WinSnake</DisplayName>
-    <PublisherDisplayName>AppPublisher</PublisherDisplayName>
+    <PublisherDisplayName>WinSnake</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
-    <uap10:PackageIntegrity>
-      <uap10:Content Enforcement="on"/>
-    </uap10:PackageIntegrity>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
   </Dependencies>
 
@@ -40,7 +31,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="WinSnake"
-        Description="WinSnake"
+        Description="Windows 原生貪食蛇遊戲"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -52,6 +43,5 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <systemai:Capability Name="systemAIModels"/>
   </Capabilities>
 </Package>
