@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.png" width="160" alt="WinSnake 標誌" />
+</p>
+
 # WinSnake（貪食蛇）
 
 以 **WinUI 3 / Windows App SDK** 打造的 Windows 原生貪食蛇遊戲。提供免安裝的單一檔案可攜版，下載後直接執行即可遊玩。
@@ -34,6 +38,7 @@
 - 20×20 棋盤，吃到果實會成長並加分，每吃 5 顆果實提升等級
 - 速度隨分數加快；撞到牆壁或自己的身體即結束
 - 最高分自動保存（封裝版使用套件設定，可攜版使用 `%LOCALAPPDATA%\WinSnake\highscore.json`）
+- 專屬品牌標誌、霓虹背景與蛇角色點綴
 - 深色霓虹介面、等比縮放棋盤、視窗最小尺寸限制
 - 鍵盤與螢幕按鈕皆可操作，文字尺寸針對高 DPI 螢幕調整
 - 遊戲規則為獨立類別庫，附 14 個單元測試
@@ -86,6 +91,8 @@ dotnet publish WinSnake.csproj -p:PublishProfile=Portable-win-x64
 WinSnake/
 ├─ Core/                      # 遊戲引擎（與 UI 無關）
 ├─ Tests/WinSnake.Core.Tests  # xUnit 單元測試
+├─ Assets/Branding/           # 標誌、蛇角色與霓虹背景
+├─ docs/logo.png              # README 品牌標誌
 ├─ docs/screenshot.png        # 遊戲截圖
 ├─ MainPage.xaml(.cs)         # 遊戲畫面、渲染與輸入
 ├─ MainWindow.xaml(.cs)       # 視窗尺寸、DPI 縮放與焦點暫停
