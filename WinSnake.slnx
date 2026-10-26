@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/WinSnake.Core.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/WinSnake.Core.Tests/WinSnake.Core.Tests.csproj" />
+  </Folder>
+  <Project Path="WinSnake.csproj" />
+</Solution>

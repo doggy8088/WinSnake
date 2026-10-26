@@ -64,6 +64,16 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Core/ and Tests/ are separate projects; exclude them from this project's default compile glob. -->
+    <Compile Remove="Core\**\*.cs" />
+    <Compile Remove="Tests\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Core\WinSnake.Core.csproj" />
+  </ItemGroup>
+
   <!-- Publish Properties -->
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
